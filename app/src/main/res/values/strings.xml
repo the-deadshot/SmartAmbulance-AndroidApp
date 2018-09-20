@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">smart</string>
+    <string name="Email">Email</string>
+    <string name="password">password</string>
+    <string name="Register">Register</string>
+
+        <string name="editText">editText</string>
+
+</resources>
