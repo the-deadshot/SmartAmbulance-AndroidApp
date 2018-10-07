@@ -8,8 +8,8 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -22,7 +22,7 @@ import com.google.android.gms.common.api.Status;
 
 
 public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
-    EditText editText, editTextPassword;
+    EditText userName,editText, editTextPassword;
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
 
@@ -30,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
        // userEmail=(TextView)findViewById(R.id.email);
+        userName=findViewById(R.id.name);
         editText =findViewById(R.id.editText);
         editTextPassword = findViewById(R.id.editTextPassword);
 
@@ -56,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             public void onClick(View view) {
                 //if user pressed on textview that already register open RegisterActivity
                 finish();
-                startActivity(new Intent(RegisterActivity.this, RegisterActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
@@ -80,19 +81,24 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private void handleSignInResult(GoogleSignInResult result){
         if(result.isSuccess()){
             GoogleSignInAccount account=result.getSignInAccount();
+            userName.setText(account.getDisplayName());
             editText.setText(account.getEmail());
 
         }
     }
 
     private void registerUser() {
-
+        final  String Name =  userName.getText().toString().trim();
        final  String Email = editText.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
 
 
         //first we will do the validations
-
+        if (TextUtils.isEmpty(Name)) {
+            userName.setError("Please enter your username");
+            userName.requestFocus();
+            return;
+        }
         if (TextUtils.isEmpty(Email)) {
             editText.setError("Please enter your email");
             editText.requestFocus();
